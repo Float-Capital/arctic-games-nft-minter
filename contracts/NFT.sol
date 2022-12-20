@@ -31,7 +31,7 @@ abstract contract ContextMixin {
     }
 }
 
-contract  is Ownable, HasSecondarySaleFees, ERC721, ContextMixin {
+contract NFT is Ownable, HasSecondarySaleFees, ERC721, ContextMixin {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
@@ -84,7 +84,7 @@ contract  is Ownable, HasSecondarySaleFees, ERC721, ContextMixin {
         override
         returns (string memory)
     {
-        return string(abi.encodePacked(ERC721.tokenURI(tokenId), ".json"));
+        return string(abi.encodePacked(ERC721.tokenURI(tokenId), ""));
     }
 
     ////////////////////////////////////

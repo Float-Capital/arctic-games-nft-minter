@@ -1,16 +1,16 @@
-# Opensea friendly NFTs
+# Arctic Games NFT Minter
 
-Repo to mint NFT's on polygon with oz & hardhat for Float Capital
+Repo to mint NFT's on polygon with oz & hardhat for Float's Arctic Games
 
 ## Scripts
+
+`yarn`
 
 `yarn compile`
 
 `yarn deploy`
 
 `yarn deploy --network mumbai`
-
-`yarn deploy --network mumbai --tags erc1155`
 
 ## Contract verification
 

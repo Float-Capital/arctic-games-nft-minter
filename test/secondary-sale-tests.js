@@ -1,7 +1,4 @@
-const {
-  Factory,
-  ,
-} = require("../hardhat.contracts.helpers");
+const { NFTFactory, NFT } = require("../hardhat.contracts.helpers");
 const { expect } = require("chai");
 
 describe(" NFT  contract", function () {
@@ -10,7 +7,7 @@ describe(" NFT  contract", function () {
   let user1;
   let user2;
   let user3;
-  let ;
+  let nft;
   let name;
   let symbol;
   let testUri;
@@ -28,40 +25,34 @@ describe(" NFT  contract", function () {
 
     maxTokenAmount = 10;
 
-    const FactoryContract = await ethers.getContractFactory(
-      Factory
-    );
+    const FactoryContract = await ethers.getContractFactory(NFTFactory);
 
     Factory = await FactoryContract.deploy();
     name = "test";
     symbol = "TST";
     testUri = "testUri/";
 
-    let deployTx = await Factory
-      .connect(deployer)
-      .deployNFT(
-        name,
-        symbol,
-        testUri,
-        deployer.address,
-        salesRecipient.address,
-        maxTokenAmount,
-        defaultBps
-      );
+    let deployTx = await Factory.connect(deployer).deployNFT(
+      name,
+      symbol,
+      testUri,
+      deployer.address,
+      salesRecipient.address,
+      maxTokenAmount,
+      defaultBps
+    );
     await new Promise((res) => setTimeout(() => res(null), 5000));
 
     let nftAddress = await Factory.nfts(0);
 
-     = await ethers.getContractAt(, nftAddress);
+    nft = await ethers.getContractAt(NFT, nftAddress);
   });
   it("should assign fee recipients", async function () {
-    let feeRecipients = await 
-      .connect(deployer)
-      .getFeeRecipients(0);
+    let feeRecipients = await nft.connect(deployer).getFeeRecipients(0);
     expect(feeRecipients[0]).to.be.equal(salesRecipient.address);
   });
   it("should assign fee bps", async function () {
-    let feeBps = await .connect(deployer).getFeeBps(0);
+    let feeBps = await nft.connect(deployer).getFeeBps(0);
     expect(feeBps[0]).to.be.equal(defaultBps);
   });
 });

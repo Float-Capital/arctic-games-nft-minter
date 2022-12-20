@@ -59,6 +59,13 @@ module.exports = {
       // "https://matic-mainnet.chainstacklabs.com",
       url: polygonProviderUrl || "https://polygon-rpc.com/",
       accounts: { mnemonic },
+      gasPrice: 120000000000, // 120 gwei
+      // gas: 10000000, // <- defaults to 'auto'
+    },
+    fuji: {
+      chainId: 43113,
+      url: "https://api.avax-test.network/ext/bc/C/rpc",
+      accounts: { mnemonic },
       gasPrice: 60000000000, // 60 gwei
       // gas: 10000000, // <- defaults to 'auto'
     },
@@ -66,8 +73,8 @@ module.exports = {
       chainId: 80001,
       url: mumbaiProviderUrl || "https://rpc-mumbai.maticvigil.com/v1",
       accounts: { mnemonic },
-      gasPrice: 3000000000, // 3 gwei
-      // gas: 15000000,
+      gasPrice: 5000000000, // 3 gwei
+      gas: 5000000,
     },
   },
   paths: {},

@@ -1,8 +1,5 @@
 const { network } = require("hardhat");
-const {
-  Factory,
-  ,
-} = require("../hardhat.contracts.helpers");
+const { NFTFactory, NFT } = require("../hardhat.contracts.helpers");
 
 let networkToUse = network.name;
 
@@ -15,7 +12,11 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   let config;
   let networkConfirmations;
 
-  if (networkToUse != "mumbai" && networkToUse != "polygon") {
+  if (
+    networkToUse != "mumbai" &&
+    networkToUse != "polygon" &&
+    networkToUse != "fuji"
+  ) {
     console.log(networkToUse);
     networkConfirmations = 0;
     config = require("../nfts/config/local");
@@ -27,6 +28,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log(networkToUse);
     networkConfirmations = 2;
     config = require("../nfts/config/mumbai");
+  } else if (networkToUse === "fuji") {
+    console.log(networkToUse);
+    networkConfirmations = 2;
+    config = require("../nfts/config/fuji");
   } else {
     throw new Error(`network ${networkToUse} un-accounted for`);
   }
@@ -35,8 +40,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   for (var i = 0; i < nfts.length; i++) {
     let nft = nfts[i];
-    let numTokens = nft.numberOfTokens;
-    let bps = 1000;
+    let bps = 0;
     // deploy nft
     let nftAddress = await deployNFT(
       deployer,
@@ -45,20 +49,13 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
       nft.name,
       nft.symbol,
       nft.baseURI,
-      numTokens,
+      nft.receiverAddresses.length,
       bps
     );
     console.log(nftAddress);
 
     // mint tokens
-    await mintCollection(
-      deployer,
-      nftAddress,
-      nft.name,
-      nft.symbol,
-      nft.receiverAddress,
-      nft.numberOfTokens
-    );
+    await mintCollection(deployer, nftAddress, nft.receiverAddresses);
   }
 };
 
@@ -74,9 +71,9 @@ async function deployNFT(
 ) {
   console.log("Deploying NFTs with the account:", deployer.address);
 
-  const Erc721Factory = await deployments.get(Factory);
+  const Erc721Factory = await deployments.get(NFTFactory);
   const erc721Factory = await ethers.getContractAt(
-    Factory,
+    NFTFactory,
     Erc721Factory.address
   );
   console.log(numTokens);
@@ -111,7 +108,7 @@ async function deployNFT(
   console.log("Contract verification command");
   console.log("----------------------------------");
   console.log(
-    `npx hardhat verify --network ${networkToUse} --contract contracts/${}.sol:${} ${nftAddress} "${name}" "${symbol}" "${baseURI}" "${deployer.address}" "${feeRecipient.address}" "${numTokens}" "${feeBps}"`
+    `npx hardhat verify --network ${networkToUse} --contract contracts/NFT.sol:NFT ${nftAddress} "${name}" "${symbol}" "${baseURI}" "${deployer.address}" "${feeRecipient.address}" "${numTokens}" "${feeBps}"`
   );
   console.log("");
   console.log("");
@@ -119,27 +116,20 @@ async function deployNFT(
   return nftAddress;
 }
 
-async function mintCollection(
-  admin,
-  nftAddress,
-  name,
-  symbol,
-  receiverAddress,
-  numberOfTokens
-) {
+async function mintCollection(admin, nftAddress, receiverAddresses) {
   console.log("Minting tokens with the account:", admin.address);
 
-  const erc721 = await ethers.getContractAt(, nftAddress);
+  const erc721 = await ethers.getContractAt(NFT, nftAddress);
 
-  for (var i = 0; i < numberOfTokens; i++) {
+  for (var i = 0; i < receiverAddresses.length; i++) {
     console.log("------------------------------------------------------------");
 
     let tokenId = i + 1;
 
     console.log("Minting tokenId: ", tokenId);
-    console.log("Minting to: ", receiverAddress);
+    console.log("Minting to: ", receiverAddresses[i]);
 
-    let mintTx = await erc721.connect(admin).mint(receiverAddress);
+    let mintTx = await erc721.connect(admin).mint(receiverAddresses[i]);
 
     console.log("Mint transaction: ");
     console.log(mintTx);

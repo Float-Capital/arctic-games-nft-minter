@@ -1,7 +1,4 @@
-const {
-  Factory,
-  ,
-} = require("../hardhat.contracts.helpers");
+const { NFTFactory, NFT } = require("../hardhat.contracts.helpers");
 const { expect } = require("chai");
 
 describe(" NFT Factory contract", function () {
@@ -19,9 +16,7 @@ describe(" NFT Factory contract", function () {
     user2 = accounts[2];
     user3 = accounts[3];
 
-    const FactoryContract = await ethers.getContractFactory(
-      Factory
-    );
+    const FactoryContract = await ethers.getContractFactory(NFTFactory);
 
     Factory = await FactoryContract.deploy();
   });
@@ -32,23 +27,21 @@ describe(" NFT Factory contract", function () {
     let testUri = "testUri";
     let maxTokenAmount = 4000;
 
-    let deployTx = await Factory
-      .connect(deployer)
-      .deployNFT(
-        name,
-        symbol,
-        testUri,
-        deployer.address,
-        user3.address,
-        maxTokenAmount,
-        defaultBps
-      );
+    let deployTx = await Factory.connect(deployer).deployNFT(
+      name,
+      symbol,
+      testUri,
+      deployer.address,
+      user3.address,
+      maxTokenAmount,
+      defaultBps
+    );
 
     await new Promise((res) => setTimeout(() => res(null), 5000));
 
     let nftAddress = await Factory.nfts(0);
 
-    let nft = await ethers.getContractAt(, nftAddress);
+    let nft = await ethers.getContractAt(NFT, nftAddress);
 
     let baseUri = await nft.baseURI();
 
@@ -62,17 +55,15 @@ describe(" NFT Factory contract", function () {
     let maxTokenAmount = 4000;
 
     await expect(
-      await Factory
-        .connect(deployer)
-        .deployNFT(
-          name,
-          symbol,
-          testUri,
-          deployer.address,
-          deployer.address,
-          maxTokenAmount,
-          defaultBps
-        )
+      await Factory.connect(deployer).deployNFT(
+        name,
+        symbol,
+        testUri,
+        deployer.address,
+        deployer.address,
+        maxTokenAmount,
+        defaultBps
+      )
     ).to.emit(Factory, "NFTDeployed");
   });
 
@@ -83,17 +74,15 @@ describe(" NFT Factory contract", function () {
     let maxTokenAmount = 4000;
 
     await expect(
-      Factory
-        .connect(user1)
-        .deployNFT(
-          name,
-          symbol,
-          testUri,
-          deployer.address,
-          deployer.address,
-          maxTokenAmount,
-          defaultBps
-        )
+      Factory.connect(user1).deployNFT(
+        name,
+        symbol,
+        testUri,
+        deployer.address,
+        deployer.address,
+        maxTokenAmount,
+        defaultBps
+      )
     ).to.be.revertedWith("Ownable: caller is not the owner");
   });
 });

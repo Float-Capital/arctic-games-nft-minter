@@ -2,11 +2,11 @@
 
 pragma solidity 0.8.3;
 
-import "./.sol";
+import "./NFT.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "hardhat/console.sol";
 
-contract Factory is Ownable {
+contract NFTFactory is Ownable {
     address[] public nfts;
     event NFTDeployed(address indexed nft, uint256 nftCount);
 
@@ -22,7 +22,7 @@ contract Factory is Ownable {
         uint256 salesFeeBPS
     ) public onlyOwner returns (address nft) {
         nft = address(
-            new (
+            new NFT(
                 name,
                 symbol,
                 baseURI,
