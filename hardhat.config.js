@@ -57,9 +57,10 @@ module.exports = {
       // "https://matic-mainnet-full-rpc.bwarelabs.com/",
       // "https://rpc-mainnet.matic.network",
       // "https://matic-mainnet.chainstacklabs.com",
-      url: polygonProviderUrl || "https://polygon-rpc.com/",
+      //url: polygonProviderUrl || "https://polygon-rpc.com/",
+      url: "https://polygon-rpc.com",
       accounts: { mnemonic },
-      gasPrice: 120000000000, // 120 gwei
+      gasPrice: 300000000000, // 300 gwei
       // gas: 10000000, // <- defaults to 'auto'
     },
     fuji: {
@@ -73,7 +74,7 @@ module.exports = {
       chainId: 80001,
       url: mumbaiProviderUrl || "https://rpc-mumbai.maticvigil.com/v1",
       accounts: { mnemonic },
-      gasPrice: 5000000000, // 3 gwei
+      gasPrice: 50000000000, // 3 gwei
       gas: 5000000,
     },
   },

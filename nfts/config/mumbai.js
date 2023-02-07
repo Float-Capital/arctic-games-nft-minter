@@ -1,28 +1,11 @@
 module.exports = {
   nfts: [
     {
-      name: "The Arctic Games NFTs: Round 1",
-      symbol: "AGR1",
-      baseURI: "https://arctic-games.float-nfts.com/round-1/",
+      name: "The Arctic Games NFTs: Round 2",
+      symbol: "AGR2",
+      baseURI: "https://arctic-games.float-nfts.com/round-2/",
       receiverAddresses: [
-        "0xA66FC822a23CD623F03F1fD66a31ed1B707a805b",
-        "0x028dD5ef66674DC965db2B0F4fc6496689e0b0D2",
-        "0x1b3Be61708699a19676d626DDAeF9eAc076F2E47",
-        "0x20b3Fb70CfEb01AC7ea11a412572848139a2B748",
-        "0x91A502BaE962c2C5DA1FeC8c4EC69f2A2A84a283",
-        "0x2eCC650E73D984DB98c2d239108D2931BdAB7028",
-        "0xE24DB2aC421e1645D8d1B4de295bb23b9A93Da6a",
-        "0x327b9dEe1830F8201efa751fd96F7B1aD0b300A1",
-        "0x20b3Fb70CfEb01AC7ea11a412572848139a2B748",
-        "0x91A502BaE962c2C5DA1FeC8c4EC69f2A2A84a283",
-        "0x2eCC650E73D984DB98c2d239108D2931BdAB7028",
-        "0xE24DB2aC421e1645D8d1B4de295bb23b9A93Da6a",
-        "0x327b9dEe1830F8201efa751fd96F7B1aD0b300A1",
-        "0x20b3Fb70CfEb01AC7ea11a412572848139a2B748",
-        "0x91A502BaE962c2C5DA1FeC8c4EC69f2A2A84a283",
-        "0x2eCC650E73D984DB98c2d239108D2931BdAB7028",
-        "0xE24DB2aC421e1645D8d1B4de295bb23b9A93Da6a",
-        "0x327b9dEe1830F8201efa751fd96F7B1aD0b300A1",
+        "0x0685695541B53e2e66b7Fb633D4841c31e877849",
       ],
       // receiverAddresses: [
       //   "0x20b3Fb70CfEb01AC7ea11a412572848139a2B748",
