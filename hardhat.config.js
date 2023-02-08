@@ -36,6 +36,9 @@ if (runCoverage) {
   // require("hardhat-gas-reporter");
 }
 
+console.log("polygonProviderUrl");
+console.log(polygonProviderUrl);
+
 module.exports = {
   // This is a sample solc configuration that specifies which version of solc to use
   solidity: {
@@ -57,8 +60,7 @@ module.exports = {
       // "https://matic-mainnet-full-rpc.bwarelabs.com/",
       // "https://rpc-mainnet.matic.network",
       // "https://matic-mainnet.chainstacklabs.com",
-      //url: polygonProviderUrl || "https://polygon-rpc.com/",
-      url: "https://polygon-rpc.com",
+      url: polygonProviderUrl || "https://polygon-rpc.com/",
       accounts: { mnemonic },
       gasPrice: 300000000000, // 300 gwei
       // gas: 10000000, // <- defaults to 'auto'

@@ -42,16 +42,17 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     let nft = nfts[i];
     let bps = 0;
     // deploy nft
-    let nftAddress = await deployNFT(
-      deployer,
-      feeRecipient,
-      networkConfirmations,
-      nft.name,
-      nft.symbol,
-      nft.baseURI,
-      nft.receiverAddresses.length,
-      bps
-    );
+    // let nftAddress = await deployNFT(
+    //   deployer,
+    //   feeRecipient,
+    //   networkConfirmations,
+    //   nft.name,
+    //   nft.symbol,
+    //   nft.baseURI,
+    //   nft.receiverAddresses.length,
+    //   bps
+    // );
+    let nftAddress = "0x2366ccaFe84602bF1CD18f47d45b7319968904F9";
     console.log(nftAddress);
 
     // mint tokens
@@ -133,6 +134,7 @@ async function mintCollection(admin, nftAddress, receiverAddresses) {
 
     console.log("Mint transaction: ");
     console.log(mintTx);
+    await new Promise((r) => setTimeout(r, 5000));
   }
   console.log("Minting complete");
 }
