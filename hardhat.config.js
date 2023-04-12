@@ -3,7 +3,7 @@ require("@tenderly/hardhat-tenderly"); // https://hardhat.org/plugins/tenderly-h
 require("solidity-coverage");
 require("@openzeppelin/hardhat-upgrades");
 require("hardhat-deploy");
-require("@nomiclabs/hardhat-ethers");
+// require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-etherscan");
 require("@nomiclabs/hardhat-waffle");
 require("hardhat-docgen");
@@ -77,6 +77,27 @@ module.exports = {
       url: mumbaiProviderUrl || "https://rpc-mumbai.maticvigil.com/v1",
       accounts: { mnemonic },
       gasPrice: 50000000000, // 3 gwei
+      gas: 5000000,
+    },
+    mumbai: {
+      chainId: 80001,
+      url: mumbaiProviderUrl || "https://rpc-mumbai.maticvigil.com/v1",
+      accounts: { mnemonic },
+      gasPrice: 50000000000, // 3 gwei
+      gas: 5000000,
+    },
+    arbitrumgoerli: {
+      chainId: 421613,
+      url: "https://arbitrum-goerli.public.blastapi.io",
+      accounts: { mnemonic },
+      gasPrice: 200000000, // 0.2 gwei
+      gas: 5000000,
+    },
+    arbitrum: {
+      chainId: 42161,
+      url: "https://arb1.arbitrum.io/rpc",
+      accounts: { mnemonic },
+      gasPrice: 200000000, // 0.2 gwei
       gas: 5000000,
     },
   },

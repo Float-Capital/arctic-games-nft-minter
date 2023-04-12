@@ -15,7 +15,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   if (
     networkToUse != "mumbai" &&
     networkToUse != "polygon" &&
-    networkToUse != "fuji"
+    networkToUse != "fuji" &&
+    networkToUse != "arbitrumgoerli" &&
+    networkToUse != "arbitrum"
   ) {
     console.log(networkToUse);
     networkConfirmations = 0;
@@ -32,6 +34,14 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log(networkToUse);
     networkConfirmations = 2;
     config = require("../nfts/config/fuji");
+  } else if (networkToUse === "arbitrumgoerli") {
+    console.log(networkToUse);
+    networkConfirmations = 2;
+    config = require("../nfts/config/arbitrumgoerli");
+  } else if (networkToUse === "arbitrum") {
+    console.log(networkToUse);
+    networkConfirmations = 2;
+    config = require("../nfts/config/arbitrum");
   } else {
     throw new Error(`network ${networkToUse} un-accounted for`);
   }
@@ -42,17 +52,17 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     let nft = nfts[i];
     let bps = 0;
     // deploy nft
-    // let nftAddress = await deployNFT(
-    //   deployer,
-    //   feeRecipient,
-    //   networkConfirmations,
-    //   nft.name,
-    //   nft.symbol,
-    //   nft.baseURI,
-    //   nft.receiverAddresses.length,
-    //   bps
-    // );
-    let nftAddress = "0x2366ccaFe84602bF1CD18f47d45b7319968904F9";
+    let nftAddress = await deployNFT(
+      deployer,
+      feeRecipient,
+      networkConfirmations,
+      nft.name,
+      nft.symbol,
+      nft.baseURI,
+      nft.receiverAddresses.length,
+      bps
+    );
+
     console.log(nftAddress);
 
     // mint tokens

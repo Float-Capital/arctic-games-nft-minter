@@ -9,29 +9,7 @@ import "./abstract/HasSecondarySaleFees.sol";
 
 import "@openzeppelin/contracts/utils/introspection/ERC165Storage.sol";
 
-/**
- * https://github.com/maticnetwork/pos-portal/blob/master/contracts/common/ContextMixin.sol
- */
-abstract contract ContextMixin {
-    function msgSender() internal view returns (address payable sender) {
-        if (msg.sender == address(this)) {
-            bytes memory array = msg.data;
-            uint256 index = msg.data.length;
-            assembly {
-                // Load the 32 bytes word from memory with the address on the lower 20 bytes, and mask those.
-                sender := and(
-                    mload(add(array, index)),
-                    0xffffffffffffffffffffffffffffffffffffffff
-                )
-            }
-        } else {
-            sender = payable(msg.sender);
-        }
-        return sender;
-    }
-}
-
-contract NFT is Ownable, HasSecondarySaleFees, ERC721, ContextMixin {
+contract NFT is Ownable, HasSecondarySaleFees, ERC721 {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
@@ -78,66 +56,28 @@ contract NFT is Ownable, HasSecondarySaleFees, ERC721, ContextMixin {
         return newItemId;
     }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override
-        returns (string memory)
-    {
+    function tokenURI(
+        uint256 tokenId
+    ) public view override returns (string memory) {
         return string(abi.encodePacked(ERC721.tokenURI(tokenId), ""));
-    }
-
-    ////////////////////////////////////
-    /// Opensea Compability functions //
-    ////////////////////////////////////
-    ///////////////See below for more details///////////////////
-    ///https://docs.opensea.io/docs/polygon-basic-integration///
-    ////////////////////////////////////////////////////////////
-    /**
-     * Override isApprovedForAll to auto-approve OS's proxy contract on Polygon
-     */
-    function isApprovedForAll(address _owner, address _operator)
-        public
-        view
-        override
-        returns (bool isOperator)
-    {
-        // if OpenSea's ERC721 Proxy Address is detected, auto-return true
-        if (_operator == address(0x58807baD0B376efc12F5AD86aAc70E78ed67deaE)) {
-            return true;
-        }
-
-        // otherwise, use the default ERC721.isApprovedForAll()
-        return ERC721.isApprovedForAll(_owner, _operator);
-    }
-
-    //override _msgSender for gas-less transactions on polygon
-    function _msgSender() internal view override returns (address sender) {
-        return ContextMixin.msgSender();
     }
 
     ////////////////////////////////////
     /// Secondary Fees implementation //
     ////////////////////////////////////
 
-    function getFeeRecipients(uint256 id)
-        public
-        view
-        override
-        returns (address payable[] memory)
-    {
+    function getFeeRecipients(
+        uint256 id
+    ) public view override returns (address payable[] memory) {
         address payable[] memory feeRecipients = new address payable[](1);
         feeRecipients[0] = payable(saleFeesRecipient);
 
         return feeRecipients;
     }
 
-    function getFeeBps(uint256 id)
-        public
-        view
-        override
-        returns (uint256[] memory)
-    {
+    function getFeeBps(
+        uint256 id
+    ) public view override returns (uint256[] memory) {
         uint256[] memory fees = new uint256[](1);
         fees[0] = defaultSecondarySalePercentage;
 
@@ -153,21 +93,16 @@ contract NFT is Ownable, HasSecondarySaleFees, ERC721, ContextMixin {
         emit UpdateSaleFeesRecipient(_saleFeesRecipient);
     }
 
-    function changeDefaultSecondarySalePercentage(uint256 _basisPoints)
-        external
-        onlyOwner
-    {
+    function changeDefaultSecondarySalePercentage(
+        uint256 _basisPoints
+    ) external onlyOwner {
         require(_basisPoints <= basisPointsDenominator);
         defaultSecondarySalePercentage = _basisPoints;
     }
 
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        virtual
-        override(ERC721, ERC165Storage)
-        returns (bool)
-    {
+    function supportsInterface(
+        bytes4 interfaceId
+    ) public view virtual override(ERC721, ERC165Storage) returns (bool) {
         return super.supportsInterface(interfaceId);
     }
 }

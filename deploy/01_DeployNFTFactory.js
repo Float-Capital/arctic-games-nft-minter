@@ -21,6 +21,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     console.log(networkToUse);
   } else if (networkToUse === "mumbai") {
     console.log(networkToUse);
+  } else if (networkToUse === "arbitrumgoerli") {
+    console.log(networkToUse);
+  } else if (networkToUse === "arbitrum") {
+    console.log(networkToUse);
   } else {
     throw new Error(`network ${networkToUse} un-accounted for`);
   }
@@ -35,7 +39,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
   if (
     networkToUse == "mumbai" ||
     networkToUse == "polygon" ||
-    networkToUse == "fuji"
+    networkToUse == "fuji" ||
+    networkToUse == "arbitrumgoerli" ||
+    networkToUse == "arbitrum"
   ) {
     console.log(networkToUse);
     console.log("");

@@ -322,12 +322,12 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_owner",
+        "name": "owner",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_operator",
+        "name": "operator",
         "type": "address"
       }
     ],
@@ -335,7 +335,7 @@
     "outputs": [
       {
         "internalType": "bool",
-        "name": "isOperator",
+        "name": "",
         "type": "bool"
       }
     ],
